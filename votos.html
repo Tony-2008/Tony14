@@ -1,1 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elecciones Estudiantiles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+            background-color: #f7f9fc;
+        }
+        h1 {
+            color: #333;
+        }
+        .candidata {
+            margin: 20px auto;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            max-width: 600px;
+        }
+        .candidata h2 {
+            color: #007BFF;
+        }
+        .candidata p {
+            text-align: left;
+        }
+        .boton {
+            margin: 10px 0;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+        }
+        .boton:hover {
+            background-color: #218838;
+        }
+        .resultados {
+            margin-top: 30px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .resultado-item {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Elecciones Estudiantiles</h1>
+    <p>Elige tu candidata favorita y revisa los resultados en tiempo real.</p>
 
+    <div class="candidata">
+        <h2>Candidata 1: Samira Torres Huapaya - 1ro A</h2>
+        <p><strong>Propuestas:</strong></p>
+        <ul>
+            <li>Implementar un programa de "Amigos de la Convivencia" para resolver conflictos.</li>
+            <li>Creación de un espacio de diálogo abierto; Talleres de habilidades sociales.</li>
+        </ul>
+        <button class="boton" onclick="votar('Samira Torres')">Votar por Samira Torres</button>
+    </div>
+
+    <div class="candidata">
+        <h2>Candidata 2: Sara Zavala Gómez - 4to A</h2>
+        <p><strong>Propuestas:</strong></p>
+        <ul>
+            <li>Coordinar el programa de "Amigos de la Convivencia".</li>
+            <li>Organizar actividades de integración; Promover respeto y tolerancia.</li>
+        </ul>
+        <button class="boton" onclick="votar('Sara Zavala')">Votar por Sara Zavala</button>
+    </div>
+
+    <div class="candidata">
+        <h2>Candidata 3: Elizabeth Garriazo Pozo - 4to B</h2>
+        <p><strong>Propuestas:</strong></p>
+        <ul>
+            <li>Organizar un taller de reciclaje creativo para crear productos útiles.</li>
+            <li>Talleres de manualidades; Feria de intercambio de libros y materiales.</li>
+        </ul>
+        <button class="boton" onclick="votar('Elizabeth Garriazo')">Votar por Elizabeth Garriazo</button>
+    </div>
+
+    <div id="resultados" class="resultados">
+        <h2>Resultados</h2>
+        <!-- Los resultados aparecerán aquí -->
+    </div>
+
+    <script>
+        // Inicializar votos en localStorage si no existen
+        const candidatas = ["Samira Torres", "Sara Zavala", "Elizabeth Garriazo"];
+        if (!localStorage.getItem("votosElecciones")) {
+            const votosIniciales = { "Samira Torres": 0, "Sara Zavala": 0, "Elizabeth Garriazo": 0 };
+            localStorage.setItem("votosElecciones", JSON.stringify(votosIniciales));
+        }
+
+        // Función para votar
+        function votar(candidata) {
+            const votos = JSON.parse(localStorage.getItem("votosElecciones"));
+            votos[candidata]++;
+            localStorage.setItem("votosElecciones", JSON.stringify(votos));
+            mostrarResultados();
+            alert(`¡Gracias por votar por ${candidata}!`);
+        }
+
+        // Función para mostrar los resultados
+        function mostrarResultados() {
+            const votos = JSON.parse(localStorage.getItem("votosElecciones"));
+            const resultadosDiv = document.getElementById("resultados");
+            resultadosDiv.innerHTML = ""; // Limpiar resultados previos
+            resultadosDiv.innerHTML = "<h2>Resultados</h2>";
+
+            for (const [candidata, cantidad] of Object.entries(votos)) {
+                const resultadoItem = document.createElement("div");
+                resultadoItem.className = "resultado-item";
+                resultadoItem.textContent = `${candidata}: ${cantidad} votos`;
+                resultadosDiv.appendChild(resultadoItem);
+            }
+        }
+
+        // Mostrar resultados al cargar la página
+        mostrarResultados();
+    </script>
+</body>
+</html>
